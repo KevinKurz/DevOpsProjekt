@@ -1,26 +1,62 @@
-param storageAccountName string = 'blobStorageNameeeeh' // Hier kannst du den Namen deines Blob Storage Accounts angeben
+param webAccountName string = 'SuperduperService'
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: storageAccountName
-  location: 'westeurope' // Hier kannst du die gewünschte Azure-Region angeben
-  sku: {
-    name: 'Standard_LRS' // Hier kannst du die gewünschte SKU für den Blob Storage Account wählen
+@description('Azure resource deployment location.')
+param location string = resourceGroup().location
+
+@description('The text to replace the default subtitle with.')
+param textToReplaceSubtitleWith string = 'This is my default subtitle text. Boring, right?'
+
+@description('Branch of the repository for deployment.')
+param repositoryBranch string  = 'main'
+
+// AppServicePlan creation
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
+  name: webAccountName
+  location: location
+  properties: {
+    reserved: false
   }
-  kind: 'StorageV2'
+  sku: {
+    name: 'F1'
+  }
+  kind: 'app'
 }
 
-resource staticWebsite 'Microsoft.Storage/storageAccounts/blobServices@2021-06-01' = {
-  name: '${storageAccount.name}/default' // Hier wird der Standard-Container für die statische Webseite erstellt
+// WebAppCreation
+resource appService 'Microsoft.Web/sites@2023-01-01' = {
+  name: 'superuniqename'
+  location: location
+  kind: 'string'
   properties: {
-    cors: []
-    defaultServiceVersion: '2020-06-12'
-    isVersioningEnabled: true
-    deleteRetentionPolicy: {
-      enabled: true
-      days: 7 // Hier kannst du festlegen, wie lange gelöschte Blobs aufbewahrt werden sollen
+    serverFarmId: appServicePlan.id
+    httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'TEXT_TO_REPLACE_SUBTITLE_WITH' // This value needs to match the name of the environment variable in the application code
+          value: textToReplaceSubtitleWith
+        }
+        {
+          name: 'SCM_DO_BUILD_DURING_DEPLOYMENT' // Build the application during deployment
+          value: 'true'
+        }
+        {
+          name: 'WEBSITE_NODE_DEFAULT_VERSION' // Set the default node version
+          value: '~20'
+        }
+      ]
+      publicNetworkAccess: 'Enabled'
     }
   }
 }
 
-output staticWebsiteUrl string = 'storageAccount.primaryEndpoints.blob' // Hier wird die URL des Blob Storage Accounts ausgegeben
-
+// Source Control Integration
+resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
+  parent: appService
+  name: 'web'
+  properties: {
+    repoUrl: 'string'
+    branch: repositoryBranch
+    isManualIntegration: true
+  }
+}
