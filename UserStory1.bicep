@@ -55,7 +55,7 @@ resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
   parent: appService
   name: 'web'
   properties: {
-    repoUrl: 'string'
+    repoUrl: 'https://github.com/KevinKurz/DevOpsProjekt'
     branch: repositoryBranch
     isManualIntegration: true
   }
