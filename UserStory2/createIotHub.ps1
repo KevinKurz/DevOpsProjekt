@@ -8,12 +8,12 @@ if ($parameters -eq 'production')
 elseif ($parameters -eq 'test')
 {
     Write-Host 'test parameter detected'
-    az deployment group create --resource-group rg-kevin-kurz --template-file UserStory1.bicep --parameters parameter.test.json
+    az deployment group create --resource-group rg-kevin-kurz --template-file UserStory2.bicep --parameters parameter.test.json
 }
 elseif ($parameters -eq 'development')
 {
     Write-Host 'development parameter detected'
-    az deployment group create --resource-group rg-kevin-kurz --template-file UserStory1.bicep --parameters parameter.development.json
+    az deployment group create --resource-group rg-kevin-kurz --template-file UserStory2.bicep --parameters parameter.development.json
 }
 elseif ($parameters -eq 'world')
 {

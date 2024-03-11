@@ -10,6 +10,9 @@ param skuName string = 'S1'
 @description('The number of IoT Hub units.')
 param skuUnits int = 1
 
+@description('Branch of the repository for deployment.')
+param repositoryBranch string  = 'main'
+
 resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   name: iotHubName
   location: location
@@ -17,4 +20,15 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     name: skuName
     capacity: skuUnits
   }  
+}
+
+// Source Control Integration
+resource srcControls 'Microsoft.Devices/IotHubs/sourcecontrols@2023-01-01' = {
+  parent: IoTHub
+  name: 'web'
+  properties: {
+    repoUrl: 'https://github.com/KevinKurz/DevOpsProjekt'
+    branch: repositoryBranch
+    isManualIntegration: true
+  }
 }
