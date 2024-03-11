@@ -1,5 +1,5 @@
 @description('Define the iotHub name.')
-param iotHubName string = 'SuperDuperIotHub'
+param iotHubName string = 'SuperDuperIotHub2'
 
 @description('The Azure region in which all resources should be deployed.')
 param location string = resourceGroup().location
