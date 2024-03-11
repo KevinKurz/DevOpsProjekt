@@ -9,6 +9,8 @@ MQTT stands for Message Queuing Telemetry Transport. MQTT works on the publisher
 
 ## Task 1: Find a Resource to receive IoT messages
 
+Azure IoT Hub.
+
 ## Task 2: Create a Resource Template for it
 
 ## Task 3: Create Parameter Files for dev, test and prod resources
