@@ -1,10 +1,10 @@
-// global Variables
+// Global Variables
 @description('The Azure region in which all resources should be deployed.')
 param location string = resourceGroup().location
 
 
 // Storage Variables
-param storageAccountName string = 'SuperduperStorage3'
+param storageAccountName string = 'SuperDuperStorage3'
 
 @description('The SKU to use for the Storage Account.')
 param storageAccountSkuName string = 'Standard_LRS'
@@ -14,7 +14,7 @@ param repositoryBranch string  = 'main'
 
 
 // Hub Variables
-@description('Define the iotHub name.')
+@description('Define the IotHub name.')
 param iotHubName string = 'SuperDuperIoTHub3'
 
 @description('The SKU to use for the IoT Hub.')
