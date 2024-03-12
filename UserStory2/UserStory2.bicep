@@ -1,6 +1,6 @@
 // IoTHub Variables
 @description('Define the iotHub name.')
-param iotHubName string = 'SuperDuperIotHub2'
+param iotHubName string = 'iot-userstory2'
 
 @description('The Azure region in which all resources should be deployed.')
 param location string = resourceGroup().location
@@ -34,7 +34,7 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
 
 //App Service Plan
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: 'AppServiceplanUserStory2'
+  name: 'asp-userstory2'
   location: location
   sku: {
     name: 'F1'
@@ -44,7 +44,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 
 // WebAppCreation
 resource appService 'Microsoft.Web/sites@2023-01-01' = {
-  name: 'superuniqename'
+  name: 'app-userstory2'
   location: location
   properties: {
     serverFarmId: appServicePlan.id

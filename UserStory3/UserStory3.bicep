@@ -4,31 +4,16 @@ param location string = resourceGroup().location
 
 
 // Storage Variables
-//param storageAccountName string = 'userstory3storage'
-
-@description('The SKU to use for the Storage Account.')
-param storageAccountSkuName string = 'Standard_LRS'
-
 @description('Branch of the repository for deployment.')
 param repositoryBranch string  = 'main'
 
-param projectName string = 'UserStory3'
-
-// Hub Variables
-//@description('Define the IotHub name.')
-//param iotHubName string = 'SuperDuperIoTHub3'
+param projectName string = 'userstory3'
 
 @description('The SKU to use for the IoT Hub.')
 param skuName string = 'S1'
 
 @description('The number of IoT Hub units.')
 param skuUnits int = 1
-
-// @description('Define the id of the storage account.')
-// param storageAccountID string 
-
-// @description('Define the name of the container.')
-// param storageContainerName string = 'storageForIoTHubRouting'
 
 
 //Web App Variables
@@ -37,24 +22,11 @@ param textToReplaceSubtitleWith string = 'This is my default subtitle text. Bori
 
 
 // // --- Variables for connectionstring
-// var storageEndpoint = '${storageAccountName}StorageEndpont'
-// var storageAccountKey = listKeys(storageAccount.id, '2023-01-01').keys[0].value
-
-
-// // --- Storage account
-// resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-//   name: storageAccountName
-//   location: location
-//   sku: {
-//     name: storageAccountSkuName
-//   }
-//   kind: 'StorageV2' 
-// }
-
 var iotHubName = '${projectName}Hub${uniqueString(resourceGroup().id)}'
 var storageAccountName = '${toLower(projectName)}${uniqueString(resourceGroup().id)}'
 var storageEndpoint = '${projectName}StorageEndpont'
 var storageContainerName = '${toLower(projectName)}results'
+
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: storageAccountName
@@ -64,6 +36,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   }
   kind: 'Storage'
 }
+
 
 resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
   name: '${storageAccountName}/default/${storageContainerName}'
@@ -95,7 +68,6 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
       endpoints: {
         storageContainers: [
           {
-            //connectionString: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccountKey}'
             connectionString: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
             containerName: storageContainerName
             fileNameFormat: '{iothub}/{partition}/{YYYY}/{MM}/{DD}/{HH}/{mm}'
@@ -130,9 +102,10 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   }
 }
 
+
 //App Service Plan
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: 'AppServiceplanUserStory3'
+  name: 'asp-userstory3'
   location: location
   sku: {
     name: 'F1'
@@ -140,9 +113,10 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   }
 }
 
+
 // WebAppCreation
 resource appService 'Microsoft.Web/sites@2023-01-01' = {
-  name: 'superuniqename'
+  name: 'app-userstory3'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
@@ -166,6 +140,7 @@ resource appService 'Microsoft.Web/sites@2023-01-01' = {
     }
   }
 }
+
 
 // Source Control Integration
 resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
