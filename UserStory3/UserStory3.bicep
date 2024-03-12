@@ -21,6 +21,10 @@ param skuUnits int = 1
 param textToReplaceSubtitleWith string = 'This is my default subtitle text. Boring, right?'
 
 
+//Variables for IoT Device
+param deviceName string = 'iot-dvc-userstory3'
+
+
 // // --- Variables for connectionstring
 var iotHubName = '${projectName}Hub${uniqueString(resourceGroup().id)}'
 var storageAccountName = '${toLower(projectName)}${uniqueString(resourceGroup().id)}'
@@ -41,7 +45,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
 resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
   name: '${storageAccountName}/default/${storageContainerName}'
   properties: {
-    publicAccess: 'None'
+    publicAccess: 'None'    
   }
   dependsOn: [
     storageAccount
@@ -102,6 +106,15 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   }
 }
 
+//IoTHub Device
+resource testDevice 'Microsoft.Devices/IotHubs/devices@2023-01-01' = {
+  parent: IoTHub
+  name: deviceName
+  properties: {
+    deviceId: deviceName
+  }
+}
+
 
 //App Service Plan
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
@@ -152,3 +165,6 @@ resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
     isManualIntegration: true
   }
 }
+
+//output connctionString string = IoTHub.properties.routing.endpoints.storageContainers[0].connectionString
+output iotHubName string = iotHubName
