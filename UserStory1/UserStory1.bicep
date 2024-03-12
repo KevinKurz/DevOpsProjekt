@@ -1,4 +1,5 @@
-param webAccountName string = 'SuperduperService'
+param appServicePlanName string = 'asp-userstory1'
+param appServiceName string = 'app-userstory1'
 
 @description('Azure resource deployment location.')
 param location string = resourceGroup().location
@@ -11,7 +12,7 @@ param repositoryBranch string  = 'main'
 
 // AppServicePlan creation
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: webAccountName
+  name: appServicePlanName
   location: location
   properties: {
     reserved: false
@@ -24,7 +25,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 
 // WebAppCreation
 resource appService 'Microsoft.Web/sites@2023-01-01' = {
-  name: 'superuniqename'
+  name: appServiceName
   location: location
   properties: {
     serverFarmId: appServicePlan.id
