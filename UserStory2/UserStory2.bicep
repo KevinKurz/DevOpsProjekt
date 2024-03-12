@@ -32,13 +32,22 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   }  
 }
 
+//App Service Plan
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
+  name: 'AppServiceplanUserStory2'
+  location: location
+  sku: {
+    name: 'F1'
+    tier: 'Free'
+  }
+}
 
 // WebAppCreation
 resource appService 'Microsoft.Web/sites@2023-01-01' = {
   name: 'superuniqename'
   location: location
   properties: {
-    serverFarmId: IoTHub.id
+    serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
       appSettings: [
@@ -59,7 +68,6 @@ resource appService 'Microsoft.Web/sites@2023-01-01' = {
     }
   }
 }
-
 
 // Source Control Integration
 resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
