@@ -1,21 +1,15 @@
-# Importieren des MQTT-Client-Moduls
-Import-Module PSMQTT
+$output_iotHubName = Get-Content -Path "UserStory3.bicep"
+$input_iotHubName = $output_iotHubName.Value
 
-# Definieren der Verbindungsinformationen für Ihre Azure IoT-Hub-Ressource
-$iotHubHostName = "SuperDuperIoTHub3"
-$deviceId = "<YOUR_DEVICE_ID>"
-$username = "$iotHubHostName/$deviceId/?api-version=2018-06-30"
-$password = "<YOUR_IOTHUB_SHARED_ACCESS_KEY>"
+# Define variables
+$resourceGroupName = "rg-kevin-kurz"
+$iotHubName = $input_iotHubName
+$deviceName = "testDevice"
+$messageBody = "{ 'temperature': 22.3, 'humidity': 55.6 }"
 
-# Definieren der MQTT-Nachricht
-$topic = "devices/$deviceId/messages/events/"
-$message = "Hello from PowerShell MQTT!"
+# Get the primary connection string for the IoT Hub
+$iotHub = Get-AzIotHub -ResourceGroupName $resourceGroupName -Name $iotHubName
+$connectionString = ($iotHub | Get-AzIotHubSasToken -DeviceId $deviceName -Duration [System.TimeSpan]::FromMinutes(5)).ConnectionString
 
-# Verbindung zum MQTT-Broker herstellen
-$mqttClient = Connect-MqttBroker -ClientId $deviceId -Server $iotHubHostName -Port 8883 -Username $username -Password $password -UseSSL
-
-# Nachricht veröffentlichen
-Publish-MqttMessage -Topic $topic -Message $message -Client $mqttClient
-
-# Verbindung trennen
-Disconnect-MqttBroker -Client $mqttClient
+# Send a test message to the IoT Hub
+Invoke-AzIoTHubDeviceMethod -ResourceGroupName $resourceGroupName -HubName $iotHubName -DeviceId $deviceName -MethodName "SendMessage" -Payload $messageBody -ConnectionString $connectionString
