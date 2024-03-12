@@ -23,11 +23,11 @@ param skuName string = 'S1'
 @description('The number of IoT Hub units.')
 param skuUnits int = 1
 
-@description('Define the id of the storage account.')
-param storageAccountID string 
+// @description('Define the id of the storage account.')
+// param storageAccountID string 
 
 @description('Define the name of the container.')
-param storageContainerName string
+param storageContainerName string = 'storageForIoTHubRouting'
 
 
 //Web App Variables
@@ -35,9 +35,9 @@ param storageContainerName string
 param textToReplaceSubtitleWith string = 'This is my default subtitle text. Boring, right?'
 
 
-// --- Variables
+// --- Variables for connectionstring
 var storageEndpoint = '${storageAccountName}StorageEndpont'
-var storageAccountKey = listKeys(storageAccountID, '2024-03-11').keys[0].value
+var storageAccountKey = listKeys(storageAccount.id, '2024-03-11').keys[0].value
 
 
 // --- Storage account
