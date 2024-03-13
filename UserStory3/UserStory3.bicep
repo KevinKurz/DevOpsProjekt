@@ -1,10 +1,10 @@
 // Global Variables
-@description('The Azure region in which all resources should be deployed.')
+@description('The Azure region in which all resources are deployed.')
 param location string = resourceGroup().location
 
 
 // Storage Variables
-@description('Branch of the repository for deployment.')
+@description('Standart branch of the repository for deployment.')
 param repositoryBranch string  = 'main'
 
 param projectName string = 'userstory3'
@@ -82,7 +82,7 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
         {
           name: 'ContosoStorageRoute'
           source: 'DeviceMessages'
-          condition: 'level="storage"'
+          //condition: 'level="storage"'
           endpointNames: [
             storageEndpoint
           ]
@@ -97,6 +97,23 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
           'events'
         ]
         isEnabled: true
+      }
+    }
+    messagingEndpoints: {
+      fileNotifications: {
+        lockDurationAsIso8601: 'PT1M'
+        ttlAsIso8601: 'PT1H'
+        maxDeliveryCount: 10
+      }
+    }
+    enableFileUploadNotifications: false
+    cloudToDevice: {
+      maxDeliveryCount: 10
+      defaultTtlAsIso8601: 'PT1H'
+      feedback: {
+        lockDurationAsIso8601: 'PT1M'
+        ttlAsIso8601: 'PT1H'
+        maxDeliveryCount: 10
       }
     }    
   }
@@ -153,5 +170,4 @@ resource srcControls 'Microsoft.Web/sites/sourcecontrols@2023-01-01' = {
   }
 }
 
-//output connctionString string = IoTHub.properties.routing.endpoints.storageContainers[0].connectionString
 output iotHubName string = iotHubName
