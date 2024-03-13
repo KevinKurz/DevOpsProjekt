@@ -106,15 +106,6 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   }
 }
 
-//IoTHub Device
-resource testDevice 'Microsoft.Devices/IotHubs/devices@2023-01-01' = {
-  parent: IoTHub
-  name: deviceName
-  properties: {
-    deviceId: deviceName
-  }
-}
-
 
 //App Service Plan
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
