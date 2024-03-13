@@ -82,7 +82,7 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
         {
           name: 'ContosoStorageRoute'
           source: 'DeviceMessages'
-          //condition: 'level="storage"'
+          //condition: 'level="storage"' // Achtung, diese Zeile muss rausgelöscht werden
           endpointNames: [
             storageEndpoint
           ]

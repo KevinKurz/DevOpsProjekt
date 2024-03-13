@@ -1,15 +1,30 @@
-$output_iotHubName = Get-Content -Path "UserStory3.bicep"
-$input_iotHubName = $output_iotHubName.Value
+# Variablen für Ihren IoTHub, das Gerät und den Nachrichteninhalt festlegen
+$resourceGroup = "rg-kevin-kurz"
+$iotHubName = "userstory3Hub3ziviq2pzerxa"
+$deviceId = "KevinsDevice"
+$message = "Testnachricht von meinem Gerät"
+$consumerGroup = "\$Default"  # Standardverbrauchergruppe
 
-# Define variables
-$resourceGroupName = "rg-kevin-kurz"
-$iotHubName = $input_iotHubName
-$deviceName = "KevinsDevice"
-$messageBody = "{ 'temperature': 22.3, 'humidity': 55.6 }"
+#$deleteDelayInSeconds = 60  # Anzahl der Sekunden, nach denen die Nachricht gelöscht wird
 
-# Get the primary connection string for the IoT Hub
-$iotHub = Get-AzIotHub -ResourceGroupName $resourceGroupName -Name $iotHubName
-$connectionString = ($iotHub | Get-AzIotHubSasToken -DeviceId $deviceName -Duration [System.TimeSpan]::FromMinutes(5)).ConnectionString
+# Meldung senden
+az iot device send-d2c-message --hub-name $iotHubName --device-id $deviceId --data $message
 
-# Send a test message to the IoT Hub
-Invoke-AzIoTHubDeviceMethod -ResourceGroupName $resourceGroupName -HubName $iotHubName -DeviceId $deviceName -MethodName "SendMessage" -Payload $messageBody -ConnectionString $connectionString
+# # Warten, um sicherzustellen, dass die Nachricht in der Queue verarbeitet wird
+# Start-Sleep -Seconds $deleteDelayInSeconds
+
+# # Nachrichten aus der Queue löschen
+# az storage message delete --queue-name $storageQueueName --id "*" --account-name $storageAccountName
+
+
+# Nachrichten aus dem Event Hub abrufen
+$events = az iot hub monitor-events --hub-name $iotHubName --device-id $deviceId --consumer-group $consumerGroup --timeout 30
+
+# Überprüfen, ob die Testnachricht empfangen wurde
+$received = $events -like "*$message*"
+
+if ($received) {
+    Write-Host "Die Testnachricht wurde erfolgreich empfangen."
+} else {
+    Write-Host "Die Testnachricht wurde nicht empfangen."
+}
