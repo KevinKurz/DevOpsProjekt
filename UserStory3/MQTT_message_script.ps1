@@ -4,7 +4,7 @@ $input_iotHubName = $output_iotHubName.Value
 # Define variables
 $resourceGroupName = "rg-kevin-kurz"
 $iotHubName = $input_iotHubName
-$deviceName = "testDevice"
+$deviceName = "KevinsDevice"
 $messageBody = "{ 'temperature': 22.3, 'humidity': 55.6 }"
 
 # Get the primary connection string for the IoT Hub

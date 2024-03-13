@@ -21,10 +21,6 @@ param skuUnits int = 1
 param textToReplaceSubtitleWith string = 'This is my default subtitle text. Boring, right?'
 
 
-//Variables for IoT Device
-param deviceName string = 'iot-dvc-userstory3'
-
-
 // // --- Variables for connectionstring
 var iotHubName = '${projectName}Hub${uniqueString(resourceGroup().id)}'
 var storageAccountName = '${toLower(projectName)}${uniqueString(resourceGroup().id)}'
@@ -38,7 +34,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   sku: {
     name: 'Standard_LRS'
   }
-  kind: 'Storage'
+  kind: 'StorageV2'
 }
 
 
