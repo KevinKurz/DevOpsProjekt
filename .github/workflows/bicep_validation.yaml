@@ -7,11 +7,27 @@ on:
 
 jobs:
   validate_and_deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2  # Lädt den Repository-Code herunter
+
+# Install packages that are needed for the deployment
+    - name: Install Azure PowerShell module
+      run: Install-Module -Name Az -Force -AllowClobber
+
+# Connecting to azure
+    - name: Login to Azure
+      run: |
+        $servicePrincipal = @{
+          clientId       = "${{ secrets.AZURE_CLIENT_ID }}"
+          clientSecret   = "${{ secrets.AZURE_CLIENT_SECRET }}"
+          tenantId       = "${{ secrets.AZURE_TENANT_ID }}"
+        }
+         $credential = New-Object -TypeName PSCredential -ArgumentList $servicePrincipal.clientId, $(ConvertTo-SecureString -String $servicePrincipal.clientSecret -AsPlainText -Force)
+
+          Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $servicePrincipal.tenantId
 
     - name: Validate Bicep files
       run: az bicep build -f *.bicep --out .  # Validiert die Bicep-Dateien
