@@ -1,0 +1,21 @@
+name: Validate and Deploy Azure Resources
+
+on:
+  push:
+    branches:
+      - main  # Hier die Haupt-Branch deines Repositories eintragen
+
+jobs:
+  validate_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2  # Lädt den Repository-Code herunter
+
+    - name: Validate Bicep files
+      run: az bicep build -f *.bicep --out .  # Validiert die Bicep-Dateien
+
+    - name: Execute PowerShell Script
+      run: |
+        pwsh -File C:\Users\Kevin.Kurz\DevOpsProjekt\UserStory3> .\createIotHub.ps1 --parameter production

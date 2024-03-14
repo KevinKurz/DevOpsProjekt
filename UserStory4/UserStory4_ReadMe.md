@@ -16,4 +16,6 @@ Dependent of the role of the Service Principal is he able to give different perm
 
 ## Task 4: Create a GitHub Action to Deploy your Templates
 
+Important: The directory MUST BE "your_Project_name/.github/workflows/"your_Action_Code.yaml"
+
 ## Task 5: Make the Deployment triggered by a commit to the main Branch
