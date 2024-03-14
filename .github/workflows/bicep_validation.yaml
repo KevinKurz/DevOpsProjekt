@@ -36,6 +36,3 @@ jobs:
       shell: pwsh
 
         az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3.bicep --parameters parameter.production.json
-
-      # run: |
-      #   pwsh -File .\createIotHub.ps1 --parameter production
