@@ -1,8 +1,7 @@
 name: Validate and Deploy Azure Resources
 
 on: push
-    branches:
-      - main  # Hier die Haupt-Branch deines Repositories eintragen
+    branches: main  # Hier die Haupt-Branch deines Repositories eintragen
 
 jobs:
   validate_and_deploy:
