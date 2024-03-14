@@ -7,7 +7,7 @@ param location string = resourceGroup().location
 @description('Standart branch of the repository for deployment.')
 param repositoryBranch string  = 'main'
 
-param projectName string = 'userstory3333'
+param projectName string = 'userstory3'
 
 @description('The SKU to use for the IoT Hub.')
 param skuName string = 'S1'
