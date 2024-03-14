@@ -1,7 +1,6 @@
 name: Validate and Deploy Azure Resources
 
-on:
-  push:
+on: push
     branches:
       - main  # Hier die Haupt-Branch deines Repositories eintragen
 
