@@ -37,6 +37,5 @@ jobs:
     # Execute powershell script
     - name: Execute PowerShell Script
       shell: pwsh
-      az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
       run: |
-        ""
+        az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
