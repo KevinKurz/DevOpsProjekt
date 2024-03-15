@@ -33,7 +33,7 @@ jobs:
     # Validate bicep-data
     - name: Validate Bicep files
       run: |
-      az bicep build -f *.bicep --out
+        az bicep build -f *.bicep --out
 
     # # Execute powershell script
     # - name: Execute PowerShell Script
