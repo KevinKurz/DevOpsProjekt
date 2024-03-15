@@ -73,6 +73,6 @@ This ARM template deploys an Azure App Service Plan, an Azure App Service, and i
 
 ## Source Control Integration Template
 
-- **Repository URL**: `https://github.com/KevinKurz/DevOpsProjekt`
+- **Repository URL**: `https://github.com/your-repository-url.git`
 - **Branch**: `repositoryBranch`
 - **Manual Integration**: Enabled
