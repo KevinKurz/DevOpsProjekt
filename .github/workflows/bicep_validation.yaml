@@ -16,7 +16,8 @@ jobs:
 
     # Install packages that are needed for the deployment
     - name: Install Azure PowerShell module
-      run: Install-Module -Name Az -Force -AllowClobber
+      run: |
+        Install-Module -Name Az -Force -AllowClobber
 
     # Connecting to azure
     - name: Login to Azure
@@ -32,9 +33,11 @@ jobs:
 
     # Validate bicep-data
     - name: Validate Bicep files
-      run: az bicep build -f *.bicep --out
-    # # Execute powershell script
-    # - name: Execute PowerShell Script
-    #   shell: pwsh
-    #   run: |
-    #   az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
+      run: |
+        az bicep build -f *.bicep --out
+
+    # Execute powershell script
+    - name: Execute PowerShell Script
+      shell: pwsh
+      run: |
+        az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
