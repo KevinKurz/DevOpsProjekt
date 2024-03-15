@@ -83,6 +83,6 @@ This ARM template deploys an Azure IoT Hub, an Azure App Service Plan, and an Az
 
 ## Source Control Integration Template
 
-- **Repository URL**: `https://github.com/KevinKurz/DevOpsProjekt`
+- **Repository URL**: `https://github.com/your-repository-url`
 - **Branch**: `repositoryBranch`
 - **Manual Integration**: Enabled
