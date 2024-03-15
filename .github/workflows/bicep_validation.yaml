@@ -8,7 +8,7 @@ on:
 jobs:
   validate_and_deploy:
     runs-on: windows-latest
-zredzdfhgfhgfb
+
     # Download repository
     steps:
     - name: Checkout Repository
