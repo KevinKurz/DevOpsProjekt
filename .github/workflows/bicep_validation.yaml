@@ -3,21 +3,22 @@ name: Validate and Deploy Azure Resources
 on:
   push:
     branches:
-      - main  # Hier die Haupt-Branch deines Repositories eintragen
+      - main
 
 jobs:
   validate_and_deploy:
     runs-on: windows-latest
 
+    # Download repository
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2  # Lädt den Repository-Code herunter
+      uses: actions/checkout@v2
 
-# Install packages that are needed for the deployment
+    # Install packages that are needed for the deployment
     - name: Install Azure PowerShell module
       run: Install-Module -Name Az -Force -AllowClobber
 
-# Connecting to azure
+    # Connecting to azure
     - name: Login to Azure
       run: |
         $servicePrincipal = @{
@@ -29,11 +30,11 @@ jobs:
 
           Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $servicePrincipal.tenantId
 
-    # Validiert die Bicep-Dateien
+    # Validate bicep-data
     - name: Validate Bicep files
       run: az bicep build -f *.bicep --out 
 
-    # PowerShell-Skript ausführen
+    # Execute powershell script
     - name: Execute PowerShell Script
       shell: pwsh
 
