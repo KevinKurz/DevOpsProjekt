@@ -76,11 +76,11 @@ This ARM template deploys the following Azure resources:
 
 ## PowerShell Script
 
-### Parameters
+### PWSH Parameters
 
 - **$parameters**: Specifies the target environment for deployment (production, test, or development).
 
-### Description
+### PWSH Description
 
 This PowerShell script facilitates the deployment of Azure resources using Bicep templates based on the specified environment parameter.
 
