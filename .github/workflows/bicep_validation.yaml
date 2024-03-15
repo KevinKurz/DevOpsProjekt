@@ -38,4 +38,4 @@ jobs:
     - name: Execute PowerShell Script
       shell: pwsh
       run: |
-        az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
+      az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
