@@ -5,4 +5,3 @@ $deviceId = "KevinsDevice"
 $message = "Testnachricht von meinem Gerät"
 
 az iot device send-d2c-message --hub-name $iotHubName --device-id $deviceId --data $message
-
