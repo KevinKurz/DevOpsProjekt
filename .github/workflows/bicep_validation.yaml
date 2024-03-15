@@ -3,7 +3,7 @@ name: Validate and Deploy Azure Resources
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   validate_and_deploy:
