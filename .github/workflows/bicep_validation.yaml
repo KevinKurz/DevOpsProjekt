@@ -28,7 +28,7 @@ jobs:
         }
         $credential = New-Object -TypeName PSCredential -ArgumentList $servicePrincipal.clientId, $(ConvertTo-SecureString -String $servicePrincipal.clientSecret -AsPlainText -Force)
 
-          Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $servicePrincipal.tenantId
+        Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $servicePrincipal.tenantId
 
     # Validate bicep-data
     - name: Validate Bicep files
