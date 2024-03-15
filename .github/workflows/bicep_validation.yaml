@@ -26,19 +26,19 @@ jobs:
           clientSecret   = "${{ secrets.AZURE_CLIENT_SECRET }}"
           tenantId       = "${{ secrets.AZURE_TENANT_ID }}"
         }
-         $credential = New-Object -TypeName PSCredential -ArgumentList $servicePrincipal.clientId, $(ConvertTo-SecureString -String $servicePrincipal.clientSecret -AsPlainText -Force)
+        $credential = New-Object -TypeName PSCredential -ArgumentList $servicePrincipal.clientId, $(ConvertTo-SecureString -String $servicePrincipal.clientSecret -AsPlainText -Force)
 
           Connect-AzAccount -ServicePrincipal -Credential $credential -Tenant $servicePrincipal.tenantId
 
     # Validate bicep-data
     - name: Validate Bicep files
-      run: az bicep build -f *.bicep --out 
+      run: az bicep build -f *.bicep --out
 
     # Execute powershell script
     - name: Execute PowerShell Script
       shell: pwsh
 
-        az deployment group create --resource-group rg-kevin-kurz --template-file \UserStory3\UserStory3.bicep --parameters \UserStory3\parameter.production.json
-      
+        az deployment group create --resource-group rg-kevin-kurz --template-file UserStory3/UserStory3.bicep --parameters UserStory3/parameter.production.json
+        
       run: |
         ""
